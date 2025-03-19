@@ -24,6 +24,13 @@ public interface EmptyHandsIndicatorConfig extends Config
 	)
 	String playersSection = "playersSection";
 
+	@ConfigSection(
+			name = "Player Exclusion",
+			description = "Exclude player from indication.",
+			position = 3
+	)
+	String playersExclusion = "playersExclusionSection";
+
 	@ConfigItem(
 			position = 1,
 			keyName = "indicationStyle",
@@ -179,4 +186,35 @@ public interface EmptyHandsIndicatorConfig extends Config
 	{
 		return new Color(255, 0, 0);
 	}
+//
+//	@ConfigItem(
+//			position = 1,
+//			keyName = "showMenuEntry",
+//			name = "Right click 'Exclude' player.",
+//			description = "Show right click option to exclude player.",
+//			section = playersExclusion
+//	)
+//	default boolean showRightClickEntry()
+//	{
+//		return false;
+//	}
+
+	@ConfigItem(
+			position = 0,
+			keyName = "excludedPlayers",
+			name = "Excluded Players",
+			description = "Format: Woox, Zezima, Durial321",
+			section = playersExclusion
+	)
+	default String getExcludedPlayers()
+	{
+		return "";
+	}
+
+//	@ConfigItem(
+//			keyName = "excludedPlayers",
+//			name = "",
+//			description = ""
+//	)
+//	void setExcludedPlayers(String excludedPlayers);
 }

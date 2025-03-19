@@ -1,11 +1,14 @@
 package emptyhandsindicator;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 
-import net.runelite.client.ui.overlay.Overlay;
+
 import net.runelite.api.Player;
 import net.runelite.api.Point;
+import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.outline.ModelOutlineRenderer;
@@ -35,7 +38,14 @@ public class EmptyHandsIndicatorOverlay extends Overlay {
     @Override
     public Dimension render(Graphics2D graphics)
     {
+        List<String> playersExcludedList = Text.fromCSV(config.getExcludedPlayers());
+        final List<String> playersExcludedSet = new ArrayList<>(playersExcludedList);
+
         indicatorService.forEachPlayer((player, color) -> {
+            if(playersExcludedSet.contains(player.getName())) {
+                return;
+            }
+
             if(config.indicationStyle() ==  IndicationStyle.OVERHEADTEXT || config.indicationStyle() == IndicationStyle.BOTH){
                 renderPlayerOverlay(graphics, player, color);
             }
