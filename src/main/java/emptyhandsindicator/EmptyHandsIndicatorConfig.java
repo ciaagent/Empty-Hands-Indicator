@@ -10,7 +10,7 @@ import java.awt.*;
 @ConfigGroup(EmptyHandsIndicatorConfig.GROUP)
 public interface EmptyHandsIndicatorConfig extends Config
 {
-	String GROUP = "empty-hands-indicator";
+	String GROUP = "Indicate empty handed";
 
 	@ConfigSection(
 			name = "Indication Style",

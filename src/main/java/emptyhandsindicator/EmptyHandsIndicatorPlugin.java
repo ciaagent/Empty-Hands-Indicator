@@ -53,7 +53,7 @@ public class EmptyHandsIndicatorPlugin extends Plugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if (event.getGroup().equals(EmptyHandsIndicatorConfig.GROUP)) {
+		if (event.getGroup().equals(EmptyHandsIndicatorConfig.GROUP) && event.getKey().equals("excludedPlayers")) {
 			emptyHandsIndicatorService.updateExcludedPlayers();
 		}
 	}

@@ -33,7 +33,7 @@ public class EmptyHandsIndicatorService {
     public void updateExcludedPlayers() {
         playersExcludedSet.clear();
         for (String player : Text.fromCSV(config.getExcludedPlayers())) {
-            playersExcludedSet.add(player.toLowerCase().trim());
+            playersExcludedSet.add(player.toLowerCase());
         }
     }
 
@@ -44,7 +44,7 @@ public class EmptyHandsIndicatorService {
             if (player == null)
                 continue;
 
-            if(playersExcludedSet.contains(player.getName().toLowerCase().trim()))
+            if(playersExcludedSet.contains(player.getName().toLowerCase()))
                 continue;
 
             Color color = getColor(player);
