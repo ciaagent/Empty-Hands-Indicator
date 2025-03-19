@@ -1,6 +1,8 @@
 package emptyhandsindicator;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -10,6 +12,7 @@ import net.runelite.api.Client;
 import net.runelite.api.kit.KitType;
 import net.runelite.api.Player;
 import net.runelite.client.party.PartyService;
+import net.runelite.client.util.Text;
 
 @Slf4j
 @Singleton
@@ -17,6 +20,7 @@ public class EmptyHandsIndicatorService {
     private final Client client;
     private final EmptyHandsIndicatorConfig config;
     private final PartyService partyService;
+    public final Set<String> playersExcludedSet = new HashSet<>();
 
     @Inject
     private EmptyHandsIndicatorService(Client client, EmptyHandsIndicatorConfig config, PartyService partyService)
@@ -26,14 +30,22 @@ public class EmptyHandsIndicatorService {
         this.partyService = partyService;
     }
 
+    public void updateExcludedPlayers() {
+        playersExcludedSet.clear();
+        for (String player : Text.fromCSV(config.getExcludedPlayers())) {
+            playersExcludedSet.add(player.toLowerCase().trim());
+        }
+    }
+
     void forEachPlayer(final BiConsumer<Player, Color> consumer)
     {
         for (Player player : client.getTopLevelWorldView().players())
         {
             if (player == null)
-            {
                 continue;
-            }
+
+            if(playersExcludedSet.contains(player.getName().toLowerCase().trim()))
+                continue;
 
             Color color = getColor(player);
             if (color != null)
@@ -47,14 +59,11 @@ public class EmptyHandsIndicatorService {
     {
         Color color = null;
         boolean handsEmpty = false;
-
         boolean isPlayer = player == client.getLocalPlayer();
         boolean isFriendChat = player.isFriendsChatMember();
         boolean isFriend = player.isFriend();
         boolean isInParty = partyService.isInParty() && partyService.getMemberByDisplayName(player.getName()) != null;
         boolean isClanMember = player.isClanMember();
-
-
 
         if (isFriendChat && config.indicateFriendChat()) {
             handsEmpty = areHandsEmpty(player);

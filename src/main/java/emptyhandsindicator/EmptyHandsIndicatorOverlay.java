@@ -1,10 +1,7 @@
 package emptyhandsindicator;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.inject.Inject;
-
 
 import net.runelite.api.Player;
 import net.runelite.api.Point;
@@ -38,19 +35,13 @@ public class EmptyHandsIndicatorOverlay extends Overlay {
     @Override
     public Dimension render(Graphics2D graphics)
     {
-        List<String> playersExcludedList = Text.fromCSV(config.getExcludedPlayers());
-        final List<String> playersExcludedSet = new ArrayList<>(playersExcludedList);
-
         indicatorService.forEachPlayer((player, color) -> {
-            if(playersExcludedSet.contains(player.getName())) {
-                return;
-            }
 
-            if(config.indicationStyle() ==  IndicationStyle.OVERHEADTEXT || config.indicationStyle() == IndicationStyle.BOTH){
+            if (config.indicationStyle() == IndicationStyle.OVERHEADTEXT || config.indicationStyle() == IndicationStyle.BOTH) {
                 renderPlayerOverlay(graphics, player, color);
             }
 
-            if(config.indicationStyle() ==  IndicationStyle.OUTLINE || config.indicationStyle() == IndicationStyle.BOTH){
+            if (config.indicationStyle() == IndicationStyle.OUTLINE || config.indicationStyle() == IndicationStyle.BOTH) {
                 renderPlayerOutline(player, color);
             }
 
@@ -60,7 +51,6 @@ public class EmptyHandsIndicatorOverlay extends Overlay {
 
     private void renderPlayerOverlay(Graphics2D graphics, Player player, Color color)
     {
-
         final int zOffset = player.getLogicalHeight() + TEXT_MARGIN;
 
         final String name = Text.sanitize(player.getName() + "'s hands are empty. Egg em!");

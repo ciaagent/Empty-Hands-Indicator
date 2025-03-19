@@ -7,9 +7,11 @@ import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Range;
 import java.awt.*;
 
-@ConfigGroup("Indicate empty handed")
+@ConfigGroup(EmptyHandsIndicatorConfig.GROUP)
 public interface EmptyHandsIndicatorConfig extends Config
 {
+	String GROUP = "empty-hands-indicator";
+
 	@ConfigSection(
 			name = "Indication Style",
 			description = "Configure the type of indication.",
@@ -186,24 +188,12 @@ public interface EmptyHandsIndicatorConfig extends Config
 	{
 		return new Color(255, 0, 0);
 	}
-//
-//	@ConfigItem(
-//			position = 1,
-//			keyName = "showMenuEntry",
-//			name = "Right click 'Exclude' player.",
-//			description = "Show right click option to exclude player.",
-//			section = playersExclusion
-//	)
-//	default boolean showRightClickEntry()
-//	{
-//		return false;
-//	}
 
 	@ConfigItem(
 			position = 0,
 			keyName = "excludedPlayers",
 			name = "Excluded Players",
-			description = "Format: Woox, Zezima, Durial321",
+			description = "Format: Woox, Zezima, Shiddy acc",
 			section = playersExclusion
 	)
 	default String getExcludedPlayers()
@@ -211,10 +201,4 @@ public interface EmptyHandsIndicatorConfig extends Config
 		return "";
 	}
 
-//	@ConfigItem(
-//			keyName = "excludedPlayers",
-//			name = "",
-//			description = ""
-//	)
-//	void setExcludedPlayers(String excludedPlayers);
 }
