@@ -52,6 +52,7 @@ public class EmptyHandsIndicatorPlugin extends Plugin
 	protected void shutDown() throws Exception
 	{
 		overlayManager.remove(emptyHandsIndicatorOverlay);
+		overlayManager.remove(indicationSelfOverlay);
 	}
 
 	@Subscribe
