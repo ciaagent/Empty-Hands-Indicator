@@ -37,11 +37,11 @@ public class EmptyHandsIndicatorOverlay extends Overlay {
     {
         indicatorService.forEachPlayer((player, color) -> {
 
-            if (config.indicationStyle() == IndicationStyle.OVERHEADTEXT || config.indicationStyle() == IndicationStyle.BOTH) {
+            if (config.indicationStyle() == IndicationStyleOthers.OVERHEADTEXT || config.indicationStyle() == IndicationStyleOthers.BOTH) {
                 renderPlayerOverlay(graphics, player, color);
             }
 
-            if (config.indicationStyle() == IndicationStyle.OUTLINE || config.indicationStyle() == IndicationStyle.BOTH) {
+            if (config.indicationStyle() == IndicationStyleOthers.OUTLINE || config.indicationStyle() == IndicationStyleOthers.BOTH) {
                 renderPlayerOutline(player, color);
             }
 

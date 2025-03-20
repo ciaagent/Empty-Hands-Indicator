@@ -3,7 +3,7 @@ package emptyhandsindicator;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum IndicationStyle {
+public enum IndicationStyleOthers {
     OUTLINE("Outline"),
     OVERHEADTEXT("Over head text"),
     BOTH("Both");

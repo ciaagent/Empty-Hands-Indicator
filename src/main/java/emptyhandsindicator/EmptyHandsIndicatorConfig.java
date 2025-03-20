@@ -1,8 +1,9 @@
 package emptyhandsindicator;
 
 import net.runelite.client.config.Config;
-import net.runelite.client.config.ConfigGroup;
+import net.runelite.client.config.Alpha;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Range;
 import java.awt.*;
@@ -27,11 +28,18 @@ public interface EmptyHandsIndicatorConfig extends Config
 	String playersSection = "playersSection";
 
 	@ConfigSection(
-			name = "Player Exclusion",
-			description = "Exclude player from indication.",
+			name = "Check your hands",
+			description = "Notifies you if you're empty handed",
 			position = 3
 	)
-	String playersExclusion = "playersExclusionSection";
+	String alarmSection = "alarmSection";
+
+	@ConfigSection(
+			name = "Player Exclusion",
+			description = "Exclude player from indication.",
+			position = 4
+	)
+	String playersExclusionSection = "playersExclusionSection";
 
 	@ConfigItem(
 			position = 1,
@@ -40,8 +48,8 @@ public interface EmptyHandsIndicatorConfig extends Config
 			description = "How would you like it to show?",
 			section = indicationStyleSection
 	)
-	default IndicationStyle indicationStyle(){
-		return IndicationStyle.OVERHEADTEXT;
+	default IndicationStyleOthers indicationStyle(){
+		return IndicationStyleOthers.OVERHEADTEXT;
 	}
 
 	@ConfigItem(
@@ -190,11 +198,36 @@ public interface EmptyHandsIndicatorConfig extends Config
 	}
 
 	@ConfigItem(
+			position = 1,
+			keyName = "playerAlarm",
+			name = "Enable flash alarm",
+			description = "Flashes screen when your hands are empty.",
+			section = alarmSection
+	)
+	default boolean selfAlarmNotification()
+	{
+		return false;
+	}
+
+	@Alpha
+	@ConfigItem(
+			position = 2,
+			keyName = "alarmColor",
+			name = "Flash alarm color",
+			description = "Sets the color of the alarm flashes",
+			section = alarmSection
+	)
+	default Color flashColor()
+	{
+		return new Color(255, 0, 0, 70);
+	}
+
+	@ConfigItem(
 			position = 0,
 			keyName = "excludedPlayers",
 			name = "Excluded Players",
 			description = "Format: Woox, Zezima, Shiddy acc",
-			section = playersExclusion
+			section = playersExclusionSection
 	)
 	default String getExcludedPlayers()
 	{

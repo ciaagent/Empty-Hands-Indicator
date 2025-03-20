@@ -44,6 +44,9 @@ public class EmptyHandsIndicatorService {
             if (player == null)
                 continue;
 
+            if(player.getId() == client.getLocalPlayer().getId())
+                continue;
+
             if(playersExcludedSet.contains(player.getName().toLowerCase()))
                 continue;
 
@@ -99,4 +102,11 @@ public class EmptyHandsIndicatorService {
         return itemId == -1;
     }
 
+    public boolean shouldNotify() {
+        if(!config.selfAlarmNotification())
+            return false;
+
+        final Player player = client.getLocalPlayer();
+        return areHandsEmpty(player);
+    }
 }

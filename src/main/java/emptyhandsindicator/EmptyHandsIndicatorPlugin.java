@@ -4,6 +4,7 @@ import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -32,6 +33,9 @@ public class EmptyHandsIndicatorPlugin extends Plugin
 	@Inject
 	private EmptyHandsIndicatorOverlay emptyHandsIndicatorOverlay;
 
+	@Inject
+	private IndicationSelfOverlay indicationSelfOverlay;
+
 	@Provides
 	EmptyHandsIndicatorConfig provideConfig(ConfigManager configManager)
 	{
@@ -56,5 +60,15 @@ public class EmptyHandsIndicatorPlugin extends Plugin
 		if (event.getGroup().equals(EmptyHandsIndicatorConfig.GROUP) && event.getKey().equals("excludedPlayers")) {
 			emptyHandsIndicatorService.updateExcludedPlayers();
 		}
+	}
+
+	@Subscribe
+	public void onGameTick(GameTick event) {
+		if(emptyHandsIndicatorService.shouldNotify()) {
+			overlayManager.add(indicationSelfOverlay);
+		}
+		else
+			overlayManager.remove(indicationSelfOverlay);
+
 	}
 }
