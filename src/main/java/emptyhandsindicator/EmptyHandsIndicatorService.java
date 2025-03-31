@@ -97,7 +97,7 @@ public class EmptyHandsIndicatorService {
         return color;
     }
 
-    private boolean areHandsEmpty(Player player) {
+    public boolean areHandsEmpty(Player player) {
         int itemId = player.getPlayerComposition().getEquipmentId(KitType.WEAPON);
         return itemId == -1;
     }

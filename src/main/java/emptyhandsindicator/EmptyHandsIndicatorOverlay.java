@@ -35,6 +35,9 @@ public class EmptyHandsIndicatorOverlay extends Overlay {
     @Override
     public Dimension render(Graphics2D graphics)
     {
+        if (config.indicationStyle() == IndicationStyleOthers.NONE)
+            return null;
+
         indicatorService.forEachPlayer((player, color) -> {
 
             if (config.indicationStyle() == IndicationStyleOthers.OVERHEADTEXT || config.indicationStyle() == IndicationStyleOthers.BOTH) {

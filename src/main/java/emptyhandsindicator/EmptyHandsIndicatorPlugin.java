@@ -4,7 +4,10 @@ import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.Player;
+import net.runelite.api.Renderable;
 import net.runelite.api.events.GameTick;
+import net.runelite.client.callback.Hooks;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -36,6 +39,11 @@ public class EmptyHandsIndicatorPlugin extends Plugin
 	@Inject
 	private IndicationSelfOverlay indicationSelfOverlay;
 
+	@Inject
+	private Hooks hooks;
+
+	private final Hooks.RenderableDrawListener renderableDrawListener = this::shouldDrawPlayer;
+
 	@Provides
 	EmptyHandsIndicatorConfig provideConfig(ConfigManager configManager)
 	{
@@ -46,6 +54,7 @@ public class EmptyHandsIndicatorPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		overlayManager.add(emptyHandsIndicatorOverlay);
+		hooks.registerRenderableDrawListener(renderableDrawListener);
 	}
 
 	@Override
@@ -53,6 +62,7 @@ public class EmptyHandsIndicatorPlugin extends Plugin
 	{
 		overlayManager.remove(emptyHandsIndicatorOverlay);
 		overlayManager.remove(indicationSelfOverlay);
+		hooks.unregisterRenderableDrawListener(renderableDrawListener);
 	}
 
 	@Subscribe
@@ -71,5 +81,22 @@ public class EmptyHandsIndicatorPlugin extends Plugin
 		else
 			overlayManager.remove(indicationSelfOverlay);
 
+	}
+
+	boolean shouldDrawPlayer(Renderable renderable, boolean drawingUI) {
+		if(!config.hideFullHandedPlayers()){
+			return true;
+		}
+		if (renderable instanceof Player) {
+			Player player = (Player) renderable;
+			Player local = client.getLocalPlayer();
+
+			if (player.getName() == null) {
+				return true;
+			}
+
+            return player.getId() == local.getId() || emptyHandsIndicatorService.areHandsEmpty(player);
+		}
+		return true;
 	}
 }
