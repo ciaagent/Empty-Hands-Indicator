@@ -78,6 +78,18 @@ public interface EmptyHandsIndicatorConfig extends Config
 	default int getBorderFeather(){return 5;}
 
 	@ConfigItem(
+			position = 4,
+			keyName = "hideFullHandedPlayers",
+			name = "Hide others",
+			description = "Only show empty handed players.",
+			section = indicationStyleSection
+	)
+	default boolean hideFullHandedPlayers()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 			position = 1,
 			keyName = "indicatePartyMembers",
 			name = "Party members",
